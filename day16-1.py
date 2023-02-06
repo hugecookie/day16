@@ -1,47 +1,55 @@
+import random
 
-class two_ways_node:
-    def __init__(self):
-        self.plink = None
-        self.data = None
-        self.nlink = None
+def is_stack_full():
+    global SIZE, stack, top
+    if top >= SIZE-1:
+        return True
+    return False
 
 
-def printNodes(start):
-    current = start
-    if current.nlink == None:
+def is_stack_empty():
+    global SIZE, stack, top
+    if top == -1:
+        return True
+    return False
+
+
+def push(data):
+    global SIZE, stack, top
+    if is_stack_full():
+        print("Stack is FULL!")
         return
-    print("정방향 --> ", end=' ')
-    print(current.data, end=' ')
-    while current.nlink != None:
-        current = current.nlink
-        print(current.data, end=' ')
-    print()
-    print("역방향 --> ", end=' ')
-    print(current.data, end=' ')
-    while current.plink != None:
-        current = current.plink
-        print(current.data, end=' ')
+    top = top + 1
+    stack[top] = data
 
 
-## 전역 변수 선언 부분 ##
-memory = []
-head, current, pre = None, None, None
-dataArray = ["꼬부기", "피카츄", "라이츄", "거북왕", "어니부기"]
+def pop():
+    global SIZE, stack, top
+    if is_stack_empty():
+        print("Stack is EMPTY~")
+        return
+    temp = stack[top]
+    stack[top] = None
+    top = top - 1
+    return temp
 
-## 메인 코드 부분 ##
+
+SIZE = 6
+stack = [None for _ in range(SIZE)]
+top = -1
+data = ["빨강", "파랑", "초록", "노랑", "보라", "주황"]
+
+
 if __name__ == "__main__":
+    random.shuffle(data)
 
-    node = two_ways_node()  # 첫 번째 노드
-    node.data = dataArray[0]
-    head = node
-    memory.append(node)
-
-    for data in dataArray[1:]:  # 두 번째 이후 노드
-        pre = node
-        node = two_ways_node()
-        node.data = data
-        pre.nlink = node
-        node.plink = pre
-        memory.append(node)
-
-    printNodes(head)
+    for i in data:
+        push(i)
+        print(f'{i}-->', end='')
+    print('과자집')
+    while True:
+        back = pop()
+        print(f'{back}-->', end='')
+        if is_stack_empty():
+            break
+    print('우리집')
