@@ -34,22 +34,27 @@ def pop():
     return temp
 
 
-SIZE = 6
+SIZE = 300
 stack = [None for _ in range(SIZE)]
 top = -1
-data = ["빨강", "파랑", "초록", "노랑", "보라", "주황"]
-
+song = """ 약이라도 타놓은 걸까
+Yeah (I said it's true)
+평범한 네 목소리에
+(I said it's true)
+냉수를 들이켜도
+쓴 커피를 마셔봐도
+너무 달아, 이거 왜이래
+(I said it's) killin' me softly
+"""
 
 if __name__ == "__main__":
-    random.shuffle(data)
 
-    for i in data:
+    for i in song:
         push(i)
-        print(f'{i}-->', end='')
-    print('과자집')
+    print(song)
+
     while True:
-        back = pop()
-        print(f'{back}-->', end='')
+        word = pop()
+        print(word, end='')
         if is_stack_empty():
             break
-    print('우리집')
