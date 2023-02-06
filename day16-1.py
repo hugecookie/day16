@@ -1,77 +1,47 @@
-import random
-import math
 
-
-class Node:
+class two_ways_node:
     def __init__(self):
+        self.plink = None
         self.data = None
-        self.link = None
+        self.nlink = None
 
 
-def print_nodes(start):
+def printNodes(start):
     current = start
-    while True:
-        current = current.link
-        x, y = current.data[1:]
-        print(f'{current.data[0]} 편의점, 거리: {math.sqrt(x**2 + y**2)}')
-        if current.link == head:
-            break
+    if current.nlink == None:
+        return
+    print("정방향 --> ", end=' ')
+    print(current.data, end=' ')
+    while current.nlink != None:
+        current = current.nlink
+        print(current.data, end=' ')
     print()
+    print("역방향 --> ", end=' ')
+    print(current.data, end=' ')
+    while current.plink != None:
+        current = current.plink
+        print(current.data, end=' ')
 
 
-def sort_List(conbi):
-    global head, current, pre
-
-    node = Node()
-    node.data = conbi
-
-    if head == None:
-        head = node
-        node.link = head
-        return
-
-    X, Y = node.data[1:]
-    distance = math.sqrt(X ** 2 + Y ** 2)
-    hX, hY = head.data[1:]
-    hdist = math.sqrt(hX ** 2 + hY ** 2)
-
-    if hdist > distance:  # 헤드 앞에 삽입
-        node.link = head
-        last = head
-
-        while last.link != head:
-            last = last.link
-        last.link = node
-        head = node
-        return
-
-    current = head
-    while current.link != head:
-        pre = current
-        current = current.link
-        cX, cY = current.data[1:]
-        cdist = math.sqrt(cX ** 2 + cY ** 2)
-        if cdist > distance:
-            pre.link = node
-            node.link = current
-            return
-
-    current.link = node
-    node.link = head
-
-
+## 전역 변수 선언 부분 ##
+memory = []
 head, current, pre = None, None, None
+dataArray = ["꼬부기", "피카츄", "라이츄", "거북왕", "어니부기"]
 
 ## 메인 코드 부분 ##
 if __name__ == "__main__":
 
-    storearray = []
-    storeName = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J')
-    for i in range(10):
-        store = (storeName[i], random.randint(1, 100), random.randint(1, 100))
-        storearray.append(store)
+    node = two_ways_node()  # 첫 번째 노드
+    node.data = dataArray[0]
+    head = node
+    memory.append(node)
 
-    for store in storearray:
-        sort_List(store)
+    for data in dataArray[1:]:  # 두 번째 이후 노드
+        pre = node
+        node = two_ways_node()
+        node.data = data
+        pre.nlink = node
+        node.plink = pre
+        memory.append(node)
 
-    print_nodes(head)
+    printNodes(head)
